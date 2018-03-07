@@ -19,9 +19,8 @@ my_page_id = '103185246428488'
 FacebookAdsApi.init(my_app_id, my_app_secret, my_access_token)
 
 params = {
-    'q': 'mercosur',
-    'type': 'adgeolocation',
-    'location_types': ['country_group'],
+    'q': 'Food',
+    'type': 'adinterest',
 }
 
 resp = TargetingSearch.search(params=params)

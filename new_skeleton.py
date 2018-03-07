@@ -6,12 +6,19 @@ from facebookads import adobjects
 from facebookads.adobjects.adaccountuser import AdAccountUser
 from facebookads.adobjects.campaign import Campaign
 from facebookads.adobjects.adset import AdSet
+from facebookads.adobjects.ad import Ad
 from facebookads.adobjects.targeting import Targeting
+from facebookads.adobjects.adimage import AdImage
+from facebookads.adobjects.adcreative import AdCreative
+from facebookads.adobjects.adaccount import AdAccount
+from facebookads.adobjects.adcreativeobjectstoryspec \
+    import AdCreativeObjectStorySpec
+from facebookads.adobjects.adcreativelinkdata import AdCreativeLinkData
 
 my_app_id = '299363293779254'
 my_app_secret = '3ec97126104c50bed63580b6968659fa'
 # my_access_token = 'EAAEQRPLI1TYBABYxJaOLZCBNcBWH98EtWOXTnF8VZCd4Bk1FhHn0cWrFqXMypG4T18A6Vsv40AJniyQhHt7uLxDgIe04dRxonm54ULJQY8KoWVZBr6hZBaPTpO2PcX9G5klLzqx2HATdrvZCJv2C5FsKP82juToyUS6VpZA6j73gZDZD'
-my_access_token='EAAEQRPLI1TYBALZBWA0MPO1miFhRtQRMxTdlaXClheN5nGZBmIDRne6hDVlfSGA6dwD74P4B4vEbQDcAF6rqbdJJrzyxA8rrqiKaqLQbmePvcVKd0xGjO1o9D9lIqTIFiLOi4Wo7MHYulJnCiOwcc4JX6iAt3NMY1B0kFlvSH1BFmuP2appWOqYsGAy2tVCHRnpBIqfKxJnpKY5DizzKhYExtZBCj0cV7q1VIaIywZDZD'
+my_access_token='EAAEQRPLI1TYBAJZAep79Waxr5btWUSGKWyS7vbi0rZAZAgfxBzviAZBEgZClZAsILatDwSOn1fnvOyvh12qorGB0FKV1s4XoJKa0wUSSlsCAz8GR553xdkZBjgTPpzB3flYUZByC9ZClSkX3IRH8hZCH3PuYyaS6bNWnuBP4alZAYnIVgZDZD'
 my_campaign_id = '23842782742530444'
 my_ad_account_id = 'act_356288071441451'
 my_page_id = '103185246428488'
@@ -41,48 +48,100 @@ def create_new_ad_set():
     """
     Create a new adset
     """
-    adset = AdSet(parent_id=my_ad_account_id)
+    ad_account = AdAccount(fbid=my_ad_account_id)
     
     """
     Create and update your ad set here
     """
 #https://developers.facebook.com/docs/marketing-api/reference/ad-campaign
     params = {
-        AdSet.Field.name: 'My Ad Set',
+        AdSet.Field.name: 'joon_SDK_test',
+        AdSet.Field.promoted_object: {
+            'page_id': my_page_id,
+        },
         AdSet.Field.campaign_id: my_campaign_id,
-        AdSet.Field.is_autobid: TRUE,
-        AdSet.Field.daily_budget: 2,
+        AdSet.Field.is_autobid: True,
+        AdSet.Field.start_time: 1520385300, 
+        AdSet.Field.end_time: 1520532000,
+        AdSet.Field.daily_budget: 200,
         AdSet.Field.billing_event: AdSet.BillingEvent.impressions,
         AdSet.Field.optimization_goal: AdSet.OptimizationGoal.page_likes,
 # https://developers.facebook.com/docs/marketing-api/targeting-specs
         AdSet.Field.targeting: {
-            Targeting.Field.geo_locations: {
-                'countries': ['US'],
+            'geo_locations': {
+                'countries': ['IN', 'ID'],
             },
-            Targeting.Field.age_min: 15,
-            Targeting.Field.age_max: 30,
-            Targeting.Field.flexible_spec: {
+            'age_min': 15,
+            'age_max': 30,
+            'flexible_spec': [
+                {
             
-                'interests': [
-                    {
-                        'id': ,
-                        'name': ,
-                    },
-                    {
-                        'id': ,
-                        'name': ,
-                    },
-                ],
-                'interested_in': []
-            },
+                    'interests': [
+                        {
+                            'id': 6003332344237 ,
+                            'name': 'Dogs',
+                        },
+                        {
+                            'id': 6004037726009,
+                            'name': 'Pets',
+                        },
+                        {
+                            'id': 6003266061909,
+                            'name': 'Food',
+                        },
+                    ],
+                },
+            ]
         },
         AdSet.Field.status: AdSet.Status.active,
     }
-    adset = adset.create_ad_set(params=params)
+    adset = ad_account.create_ad_set(params=params)
 
+
+
+    image = AdImage(parent_id=my_ad_account_id)
+    image[AdImage.Field.filename] = '/Users/deriknguyen/Desktop/CS144/clickmaniac/cat_ads/6.jpeg'
+    image.remote_create()
+
+    # Output image Hash
+    image_hash = image[AdImage.Field.hash]
+
+    # First, upload the ad image that you will use in your ad creative
+    # Please refer to Ad Image Create for details.
+
+    link_data = AdCreativeLinkData()
+    link_data[AdCreativeLinkData.Field.message] = 'Cats are one of the deadliest local predators of birds. "Like" this post if you agree they\'re overated!'
+    link_data[AdCreativeLinkData.Field.name] = 'Puppy Love'
+    link_data[AdCreativeLinkData.Field.link] = 'http://www.facebook.com/caltech.clickmaniac'
+    link_data[AdCreativeLinkData.Field.image_hash] = image_hash
+
+    # Then, use the image hash returned from above
+    object_story_spec = AdCreativeObjectStorySpec()
+    object_story_spec[AdCreativeObjectStorySpec.Field.page_id] = my_page_id
+    object_story_spec[AdCreativeObjectStorySpec.Field.link_data] = link_data
+    
+
+    creative = AdCreative(parent_id='my_ad_account_id')
+    # creative[AdCreative.Field.title] = 'Puppy Love'
+    # creative[AdCreative.Field.body] = 'Cats are one of the deadliest local predators of birds. "Like" this post if you agree they\'re overated!'
+    # creative[AdCreative.Field.link_url] = 'http://www.facebook.com/caltech.clickmaniac'
+    # creative[AdCreative.Field.image_hash] = image_hash
+
+    creative[AdCreative.Field.object_story_spec] = object_story_spec
+    
+
+    # Finally, create your ad along with ad creative.
+    # Please note that the ad creative is not created independently, rather its
+    # data structure is appended to the ad group
+    ad = Ad(parent_id=my_ad_account_id)
+    ad[Ad.Field.name] = 'joon_cat_neg_test'
+    ad[Ad.Field.adset_id] = adset[AdSet.Field.id]
+    ad[Ad.Field.creative] = creative
+    ad.remote_create(params={
+        'status': Ad.Status.active,
+    })
     return adset
 
-            
 
 if __name__ == "__main__":
     # FacebookAdsApi setup
@@ -91,10 +150,12 @@ if __name__ == "__main__":
     # Fetching campaign
     campaign = get_campaign()
 
-    adset = get_ad_set(campaign)
+    # adset = get_ad_set(campaign)
 
-    # Creating a new ad set
-    if len(adset.get_ads()) > 0:
-        print("# Ads:", len(adset.get_ads()))
-    else:
-        create_new_ad_set(adset)
+    # # Creating a new ad set
+    # if len(adset.get_ads()) > 0:
+    #     print("# Ads:", len(adset.get_ads()))
+    # else:
+    #     create_new_ad_set(adset)
+    create_new_ad_set()
+    
