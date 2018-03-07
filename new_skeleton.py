@@ -59,7 +59,7 @@ def create_new_ad_set():
             Targeting.Field.geo_locations: {
                 'countries': ['US'],
             },
-            Targeting.Field.age_min: 25,
+            Targeting.Field.age_min: 15,
             Targeting.Field.age_max: 30,
             Targeting.Field.flexible_spec: {
             
