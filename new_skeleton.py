@@ -9,7 +9,8 @@ from facebookads.adobjects.adset import AdSet
 
 my_app_id = '299363293779254'
 my_app_secret = '3ec97126104c50bed63580b6968659fa'
-my_access_token = 'EAAEQRPLI1TYBAETX4BT4QeumDM77p2lNqgdpbPWQfGvZCjbu4b9gtSd1yIcnLOQBWgt7KZAD8DxZAExBjlXymZAqE6LZA7PgXiakFjANfLBJbPgFHam8glqUHGKPFR2QzCubxzI1ZAqY5xzMbYvTSlZAxpVSyEF5m4ZD'
+# my_access_token = 'EAAEQRPLI1TYBABYxJaOLZCBNcBWH98EtWOXTnF8VZCd4Bk1FhHn0cWrFqXMypG4T18A6Vsv40AJniyQhHt7uLxDgIe04dRxonm54ULJQY8KoWVZBr6hZBaPTpO2PcX9G5klLzqx2HATdrvZCJv2C5FsKP82juToyUS6VpZA6j73gZDZD'
+my_access_token='EAAEQRPLI1TYBALZBWA0MPO1miFhRtQRMxTdlaXClheN5nGZBmIDRne6hDVlfSGA6dwD74P4B4vEbQDcAF6rqbdJJrzyxA8rrqiKaqLQbmePvcVKd0xGjO1o9D9lIqTIFiLOi4Wo7MHYulJnCiOwcc4JX6iAt3NMY1B0kFlvSH1BFmuP2appWOqYsGAy2tVCHRnpBIqfKxJnpKY5DizzKhYExtZBCj0cV7q1VIaIywZDZD'
 my_campaign_id = '23842782742530444'
 my_ad_account_id = 'act_356288071441451'
 my_page_id = '103185246428488'
@@ -20,7 +21,7 @@ def get_campaign():
     """
     campaign = Campaign(my_campaign_id)
     campaign.remote_read(fields=[Campaign.Field.name, Campaign.Field.objective])
-    assert campaign[Campaign.Field.name] == 'my_man_joon_SDK'
+    assert campaign[Campaign.Field.name] == 'my_man_joon SDK'
     assert campaign[Campaign.Field.objective] == Campaign.Objective.page_likes
     return campaign
 
