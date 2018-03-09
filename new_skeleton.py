@@ -55,14 +55,14 @@ def create_new_ad_set():
     """
 #https://developers.facebook.com/docs/marketing-api/reference/ad-campaign
     params = {
-        AdSet.Field.name: 'joon_SDK_test',
+        AdSet.Field.name: 'joon_SDK_competition',
         AdSet.Field.promoted_object: {
             'page_id': my_page_id,
         },
         AdSet.Field.campaign_id: my_campaign_id,
         AdSet.Field.is_autobid: True,
-        AdSet.Field.start_time: 1520385300, 
-        AdSet.Field.end_time: 1520532000,
+        AdSet.Field.start_time: 1520560800, 
+        AdSet.Field.end_time: 1520701200,
         AdSet.Field.daily_budget: 200,
         AdSet.Field.billing_event: AdSet.BillingEvent.impressions,
         AdSet.Field.optimization_goal: AdSet.OptimizationGoal.page_likes,
@@ -71,8 +71,8 @@ def create_new_ad_set():
             'geo_locations': {
                 'countries': ['IN', 'ID'],
             },
-            'age_min': 15,
-            'age_max': 30,
+            'age_min': 13,
+            'age_max': 35,
             'flexible_spec': [
                 {
             
@@ -89,6 +89,15 @@ def create_new_ad_set():
                             'id': 6003266061909,
                             'name': 'Food',
                         },
+                        {
+                            'id': 6003156370433,
+                            'name': 'Cute Animals',
+                        },
+                        {
+                            'id': 625163160959478,
+                            'name': 'Adorable Animals',
+                        },
+
                     ],
                 },
             ]
@@ -100,7 +109,7 @@ def create_new_ad_set():
 
 
     image = AdImage(parent_id=my_ad_account_id)
-    image[AdImage.Field.filename] = '/Users/deriknguyen/Desktop/CS144/clickmaniac/cat_ads/6.jpeg'
+    image[AdImage.Field.filename] = '/Users/deriknguyen/Desktop/CS144/clickmaniac/dog_ads/3.jpg'
     image.remote_create()
 
     # Output image Hash
@@ -110,7 +119,7 @@ def create_new_ad_set():
     # Please refer to Ad Image Create for details.
 
     link_data = AdCreativeLinkData()
-    link_data[AdCreativeLinkData.Field.message] = 'Cats are one of the deadliest local predators of birds. "Like" this post if you agree they\'re overated!'
+    link_data[AdCreativeLinkData.Field.message] = '"Like" to find ways to help man\'s best friend.'
     link_data[AdCreativeLinkData.Field.name] = 'Puppy Love'
     link_data[AdCreativeLinkData.Field.link] = 'http://www.facebook.com/caltech.clickmaniac'
     link_data[AdCreativeLinkData.Field.image_hash] = image_hash
@@ -134,7 +143,7 @@ def create_new_ad_set():
     # Please note that the ad creative is not created independently, rather its
     # data structure is appended to the ad group
     ad = Ad(parent_id=my_ad_account_id)
-    ad[Ad.Field.name] = 'joon_cat_neg_test'
+    ad[Ad.Field.name] = 'joon_dog_pos_competition'
     ad[Ad.Field.adset_id] = adset[AdSet.Field.id]
     ad[Ad.Field.creative] = creative
     ad.remote_create(params={
